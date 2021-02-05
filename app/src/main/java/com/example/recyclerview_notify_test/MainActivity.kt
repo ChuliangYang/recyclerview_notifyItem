@@ -18,7 +18,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val list = mutableListOf<Item>()
-        for(i in 0 ..  Random.nextInt(20)){
+        var randomNumber = 20
+        for(i in 0 ..  Random.nextInt(randomNumber)){
             list.add(Item(i.toString(),"This is item $i"))
         }
         rv_test.apply {
@@ -39,18 +40,18 @@ class MainActivity : AppCompatActivity() {
 
         lifecycleScope.launchWhenResumed {
             delay(3000)
-            val id = Random.nextInt(21,100)
-            for(i in 0 .. Random.nextInt(20)){
+            val id = Random.nextInt(randomNumber+1,randomNumber+101)
+            for(i in 0 .. Random.nextInt(randomNumber)){
                 val insertIndex = Random.nextInt(list.size-1)
                 list.add(insertIndex,Item((id+i).toString(),"This is item ${id+i}"))
             }
 
-            for(i in 0 .. Random.nextInt(10)){
+            for(i in 0 .. Random.nextInt(randomNumber/2)){
                 val removed = Random.nextInt(list.size-1)
                 list.removeAt(removed)
             }
 
-            for(i in 0 .. Random.nextInt(10)){
+            for(i in 0 .. Random.nextInt(randomNumber/2)){
                 val changed = Random.nextInt(list.size-1)
                 list[changed].name = "name change ${list[changed].id}"
             }

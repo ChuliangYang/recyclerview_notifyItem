@@ -51,13 +51,13 @@ class MyRecyclerviewAdapter(private var itemList: MutableList<Item>) :
     fun updateListWithAnim(newList: List<Item>) {
         val newMap = hashMapOf<String, Int>()
         val orginalMap = hashMapOf<String, Int>()
-        val currentState = internalList.toMutableList().map {
+        val currentState = internalList.map {
             it.copy()
         }.toMutableList()
         var removedCount = 0
-        Log.e("result-o",internalList.toString())
+        Log.e("before-list",internalList.toString())
 
-        Log.e("result-final list",newList.toString())
+        Log.e("expect-final-list",newList.toString())
         for (index in newList.indices) {
             newMap.put(newList[index].id, index)
         }
@@ -69,8 +69,6 @@ class MyRecyclerviewAdapter(private var itemList: MutableList<Item>) :
                 removedCount++
             }
         }
-        Log.e("result-currentState-removed",currentState.toString())
-
 
         for (index in newList.indices) {
             if (!orginalMap.containsKey(newList[index].id)) {
@@ -79,9 +77,9 @@ class MyRecyclerviewAdapter(private var itemList: MutableList<Item>) :
             }
         }
 
+//        Log.e("debug-list-before-move",newList.toString())
 
         var leftIndex = 0
-        Log.e("result-currentStateInserted",currentState.toString())
         while (leftIndex < currentState.size) {
             val currentNode = currentState[leftIndex]
             val destinationIndex = newMap[currentNode.id]!!
@@ -106,8 +104,7 @@ class MyRecyclerviewAdapter(private var itemList: MutableList<Item>) :
             }
         }
 
-        Log.e("result1",currentState.toString())
-
+//        Log.e("debug-list-after-move",newList.toString())
 
         for (index in newList.indices) {
             if (orginalMap.containsKey(newList[index].id)) {
@@ -119,6 +116,8 @@ class MyRecyclerviewAdapter(private var itemList: MutableList<Item>) :
                 }
             }
         }
+
+        Log.e("final-displayed-list",currentState.toString())
 
         itemList = newList.toMutableList()
         internalList = itemList.map {
