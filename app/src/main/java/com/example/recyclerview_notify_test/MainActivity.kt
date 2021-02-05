@@ -18,7 +18,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val list = mutableListOf<Item>()
-        for(i in 0 ..  9){
+        for(i in 0 ..  Random.nextInt(20)){
             list.add(Item(i.toString(),"This is item $i"))
         }
         rv_test.apply {
@@ -39,15 +39,22 @@ class MainActivity : AppCompatActivity() {
 
         lifecycleScope.launchWhenResumed {
             delay(3000)
-            list.add(Item("13","This is item 13"))
-            list.add(2,Item("56","This is item id56"))
-            list.add(9,Item("32","This is item id32"))
-            list.removeAt(0)
-            list.removeAt(6)
-            list.removeAt(4)
-            list[0].name = "name change ${list[0].id}"
-            list[1].name = "name change ${list[1].id}"
-            list[8].name = "name change ${list[8].id}"
+            val id = Random.nextInt(21,100)
+            for(i in 0 .. Random.nextInt(20)){
+                val insertIndex = Random.nextInt(list.size-1)
+                list.add(insertIndex,Item((id+i).toString(),"This is item ${id+i}"))
+            }
+
+            for(i in 0 .. Random.nextInt(10)){
+                val removed = Random.nextInt(list.size-1)
+                list.removeAt(removed)
+            }
+
+            for(i in 0 .. Random.nextInt(10)){
+                val changed = Random.nextInt(list.size-1)
+                list[changed].name = "name change ${list[changed].id}"
+            }
+
             list.shuffle()
             mAdapter.updateListWithAnim(list)
         }
